@@ -6,7 +6,7 @@
   "scripts": {
     "cover": "nyc --reporter text --reporter html yarn run test",
     "build": "tsc && tslint --project tsconfig.json 'src/**/*.ts' 'test/**/*.ts'",
-    "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
+    "test": "yarn build && karma start --single-run --browsers ChromeHeadless karma.conf.js",
     "compile": "yarn build && webpack"
   },
   "dependencies": {
