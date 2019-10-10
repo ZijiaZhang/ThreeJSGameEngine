@@ -1,0 +1,31 @@
+{
+  "name": "gameengine",
+  "version": "0.0.0",
+  "license": "GPL-3.0",
+  "private": true,
+  "scripts": {
+    "cover": "nyc --reporter text --reporter html yarn run test",
+    "build": "tsc && tslint --project tsconfig.json 'src/**/*.ts' 'test/**/*.ts'",
+    "test": "mocha --require ts-node/register --timeout 10000",
+    "compile": "yarn build && webpack"
+  },
+  "dependencies": {
+    "@types/node": "^12.7.12",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "mocha": "^6.2.1",
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11",
+    "three": "^0.109.0",
+    "three-orbitcontrols": "^2.108.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3",
+    "webpack": "^4.41.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "webpack-cli": "^3.3.9"
+  }
+}

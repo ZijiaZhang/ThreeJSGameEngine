@@ -1,0 +1,7 @@
+# Project exclude paths
+/node_modules/
+/public/javascripts/
+/src/modules/Game.js
+/src/modules/Game.js.map
+/src/modules/StartGame.js
+/src/modules/StartGame.js.map
