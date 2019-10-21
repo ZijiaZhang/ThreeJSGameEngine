@@ -13,4 +13,11 @@ module.exports = [{
             path: path.resolve(__dirname, 'test/compiled'),
             filename: 'ViewPortManagerTest.js'
         }
+    },
+    {
+        entry: './test/GameObjectTest.spec.js',
+        output: {
+            path: path.resolve(__dirname, 'test/compiled'),
+            filename: 'GameObjectTest.js'
+        }
     }];

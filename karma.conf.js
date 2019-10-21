@@ -10,5 +10,9 @@ module.exports = function(config) {
         autoWatch: false,
         // singleRun: false, // Karma captures browsers, runs the tests and exits
         concurrency: Infinity,
+        coverageReporter: {
+            type : 'html',
+            dir : 'coverage/'
+        }
     })
 };
