@@ -1,6 +1,7 @@
 # ThreeJSGameEngine
 
 [![Build Status](https://travis-ci.org/ZijiaZhang/ThreeJSGameEngine.svg?branch=master)](https://travis-ci.org/ZijiaZhang/ThreeJSGameEngine)
+[![codecov](https://codecov.io/gh/ZijiaZhang/ThreeJSGameEngine/branch/master/graph/badge.svg)](https://codecov.io/gh/ZijiaZhang/ThreeJSGameEngine)
 
 A Game builder frameware with Three js.
 
