@@ -6,8 +6,13 @@ export class GameObject{
     private subGameObjects: GameObject[] = [];
     private gameScene: GameScene;
 
-    public destroy(){
 
+    public destroy(): boolean{
+        if (this.gameScene) {
+            this.gameScene.removeItem(this);
+            return true;
+        }
+        return false;
     }
 
     public getMeshes(): Mesh[]{
@@ -28,5 +33,13 @@ export class GameObject{
 
     private hasSubObject(obj: GameObject): boolean {
         return this.subGameObjects.includes(obj) || this.subGameObjects.reduce((acc, gobj) => acc || (gobj.hasSubObject(obj)), false);
+    }
+
+    public setGameScene(scene: GameScene) {
+        this.gameScene = scene;
+    }
+
+    public getGameScene(): GameScene {
+        return this.gameScene;
     }
 }

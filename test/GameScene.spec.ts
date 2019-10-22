@@ -20,6 +20,7 @@ describe('GameScene', function () {
         let mesh = new Mesh(geometry, material);
         object.addSubMesh(mesh);
         gameScene.addItem(object);
+        expect(object.getGameScene()).equal(gameScene);
         expect((gameScene.getScene() as MockScene).objects).to.deep.equals([mesh]);
     });
 
@@ -39,6 +40,7 @@ describe('GameScene', function () {
         object.addSubMesh(mesh);
         gameScene.addItem(object);
         gameScene.removeItem(object);
+        expect(object.getGameScene()).equal(null);
         expect((gameScene.getScene() as MockScene).objects).to.deep.equals([]);
     });
 
@@ -57,7 +59,6 @@ describe('GameScene', function () {
         let material = new MeshBasicMaterial({color:0xffff00});
         let mesh = new Mesh(geometry, material);
         object.addSubMesh(mesh);
-
         expect(gameScene.removeItem(object)).equals(false);
     });
 

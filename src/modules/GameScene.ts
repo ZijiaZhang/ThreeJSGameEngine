@@ -15,6 +15,7 @@ export class GameScene{
             for (let obj of object.getMeshes()) {
                 this.scene.add(obj);
             }
+            object.setGameScene(this);
         }
     }
 
@@ -26,6 +27,7 @@ export class GameScene{
                 for (let obj of object.getMeshes()) {
                     this.scene.remove(obj);
                 }
+                object.setGameScene(null);
             }
             return true;
         } catch (e) {

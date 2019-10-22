@@ -13,9 +13,28 @@ module.exports = function(config) {
         autoWatch: false,
         // singleRun: false, // Karma captures browsers, runs the tests and exits
         concurrency: Infinity,
-        coverageReporter: {
-            type : 'html',
-            dir : 'coverage/'
-        }
+        karmaTypescriptConfig: {
+            coverageOptions: {
+                threshold: {
+                    global: {
+                        statements: 100,
+                        branches: 100,
+                        functions: 100,
+                        lines: 100
+                    }
+                }
+            },
+            reports: {
+                json: {
+                    directory: "coverage",
+                    filename: "coverage.json"
+                },
+                html: "coverage"
+            },
+            compilerOptions: {
+                module: "commonjs"
+            },
+            tsconfig: "./tsconfig.json"
+        },
     })
 };
