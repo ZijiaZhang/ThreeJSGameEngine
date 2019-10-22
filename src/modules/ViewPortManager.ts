@@ -1,12 +1,13 @@
-import {PerspectiveCamera, Scene, Vector3, WebGLRenderer} from "three"
+import {PerspectiveCamera, Vector3, WebGLRenderer} from "three"
+import {GameScene} from "./GameScene";
 
 class ViewPortManager{
-    public activeScene: Scene;
-    public renderer: WebGLRenderer;
-    public camera: PerspectiveCamera;
+    private activeScene: GameScene;
+    private renderer: WebGLRenderer;
+    private camera: PerspectiveCamera;
     private canvas: HTMLElement| null;
     private cameraFov: number;
-    public initialize(scene: Scene, cameraFov:number, cameraPos: Vector3, up: Vector3, lookAt: Vector3){
+    public initialize(scene: GameScene, cameraFov:number, cameraPos: Vector3, up: Vector3, lookAt: Vector3){
         this.canvas = document.getElementById("canvas");
         if(this.canvas == null){
             throw Error("No div Named 'canvas'");
@@ -22,6 +23,7 @@ class ViewPortManager{
         this.camera.lookAt(lookAt);
         this.updateViewport();
         window.addEventListener('resize', this.updateViewport);
+        this.activeScene.addItem(this.camera);
     }
 
     public setCameraFov(cameraFov: number){
@@ -41,7 +43,21 @@ class ViewPortManager{
     }
 
     public render(){
-        this.renderer.render(this.activeScene,this.camera);
+        this.renderer.render(this.activeScene.getScene(),this.camera);
+    }
+
+    public swichScene(gameScene: GameScene) {
+        this.activeScene.removeItem(this.camera);
+        this.activeScene = gameScene;
+        this.activeScene.addItem(this.camera);
+    }
+
+    public getCameraFov(): number {
+        return this.cameraFov;
+    }
+
+    public getCamera(): PerspectiveCamera{
+        return this.camera;
     }
 }
 

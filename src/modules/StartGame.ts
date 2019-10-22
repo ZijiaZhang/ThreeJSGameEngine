@@ -1,2 +1,3 @@
 import {Game} from "./Game"
-const myGame = new Game();
+import {Scene} from "three";
+new Game(new Scene());
