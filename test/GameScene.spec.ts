@@ -1,9 +1,10 @@
 
 import {MockScene} from "../src/tests/MockScene";
 import {expect} from "chai";
-import {GameScene} from "../src/modules/GameScene";
-import {GameObject} from "../src/modules/GameObject";
-import {Mesh, MeshBasicMaterial, SphereGeometry} from "three";
+import {GameScene} from "../src/modules/Base/GameScene";
+import {GameObject} from "../src/modules/Base/GameObject";
+import {Matrix4, Mesh, MeshBasicMaterial, SphereGeometry} from "three";
+import {SimpleRotatingCube} from "../src/modules/examples/SimpleRotatingCube";
 
 describe('GameScene', function () {
     let gameScene: GameScene;
@@ -79,5 +80,23 @@ describe('GameScene', function () {
         let material = new MeshBasicMaterial({color:0xffff00});
         let mesh = new Mesh(geometry, material);
         expect(gameScene.removeItem(mesh)).equals(false);
+    });
+
+    it('should update GameObject Correctly', function () {
+        let object: GameObject = new GameObject();
+        let geometry = new SphereGeometry(5,32,32);
+        let material = new MeshBasicMaterial({color:0xffff00});
+        let mesh = new Mesh(geometry, material);
+        object.addSubMesh(mesh);
+        gameScene.addItem(object);
+        gameScene.update();
+        expect(object.getMatrix()).to.deep.equal(new Matrix4().identity());
+    });
+
+    it('should update tick Object Correctly', function () {
+        let object: GameObject = new SimpleRotatingCube();
+        gameScene.addItem(object);
+        gameScene.update();
+        expect(object.getMatrix()).to.deep.equal(new Matrix4().identity());
     });
 });

@@ -38,11 +38,12 @@ class ViewPortManager{
 
     public updateCamera(){
         this.camera.fov = this.cameraFov;
-        this.camera.aspect = window.innerWidth/window.innerWidth;
+        this.camera.aspect = window.innerWidth/window.innerHeight;
         this.camera.updateProjectionMatrix();
     }
 
     public render(){
+        this.activeScene.update();
         this.renderer.render(this.activeScene.getScene(),this.camera);
     }
 

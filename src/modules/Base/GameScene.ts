@@ -1,10 +1,11 @@
-import {Object3D, Scene} from "three";
+import {Matrix4, Object3D, Scene} from "three";
 import {GameObject} from "./GameObject";
+import {TickObject} from "./TickObject";
 
 export class GameScene {
     private scene: Scene;
     private gameObjects: GameObject[] = [];
-
+    private gameobject: GameObject;
     constructor(scene: Scene) {
         this.scene = scene;
     }
@@ -51,5 +52,14 @@ export class GameScene {
 
     public getScene(): Scene {
         return this.scene;
+    }
+
+    public update(){
+        for (this.gameobject of this.gameObjects){
+            if (this.gameobject instanceof TickObject){
+                this.gameobject.tick();
+            }
+            this.gameobject.updateObjectMatrix(new Matrix4().identity());
+        }
     }
 }

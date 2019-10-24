@@ -1,8 +1,8 @@
-import {viewPortManager} from "../src/modules/ViewPortManager";
+import {viewPortManager} from "../src/modules/Base/ViewPortManager";
 import {Vector3} from "three";
 import {expect} from "chai"
 import {MockScene} from "../src/tests/MockScene";
-import {GameScene} from "../src/modules/GameScene";
+import {GameScene} from "../src/modules/Base/GameScene";
 
 describe('ViewPortManager Error', function () {
     it('should throw error when Initialize if no canvas found', function () {

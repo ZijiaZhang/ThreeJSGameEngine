@@ -1,8 +1,7 @@
-import {viewPortManager} from "../src/modules/ViewPortManager";
-import {BoxGeometry, Mesh, MeshBasicMaterial, Scene, SphereGeometry, Vector3} from "three";
+import {BoxGeometry, Matrix4, Mesh, MeshBasicMaterial, SphereGeometry, Vector3} from "three";
 import {expect} from "chai";
-import {GameObject} from "../src/modules/GameObject";
-import {GameScene} from "../src/modules/GameScene";
+import {GameObject} from "../src/modules/Base/GameObject";
+import {GameScene} from "../src/modules/Base/GameScene";
 import {MockScene} from "../src/tests/MockScene";
 
 describe('GameObject', function () {
@@ -53,7 +52,7 @@ describe('GameObject', function () {
         let gameObject1 = new GameObject();
         gameObject1.addSubGameObjects(gameObject);
         let gameObject2 = new GameObject();
-        gameObject.addSubGameObjects(gameObject2)
+        gameObject.addSubGameObjects(gameObject2);
         expect(gameObject2.addSubGameObjects(gameObject1)).false;
     });
 
@@ -75,6 +74,28 @@ describe('GameObject', function () {
         let mesh = new Mesh(geometry, material);
         gameObject.addSubMesh(mesh);
         expect( gameObject.destroy()).equal(false);
+    });
+
+    it("should update Matrix", () => {
+        let geometry = new SphereGeometry(5,32,32);
+        let material = new MeshBasicMaterial({color:0xffff00});
+        let mesh = new Mesh(geometry, material);
+        gameObject.addSubMesh(mesh);
+        gameObject.setTransformation(new Vector3(1,1,1,));
+        gameObject.updateObjectMatrix(new Matrix4().identity());
+        expect( gameObject.getMatrix()).to.deep.equal(new Matrix4().makeTranslation(1,1,1));
+    });
+
+    it("should update Matrix Rotation", () => {
+        let geometry = new SphereGeometry(5,32,32);
+        let material = new MeshBasicMaterial({color:0xffff00});
+        let mesh = new Mesh(geometry, material);
+        gameObject.addSubMesh(mesh);
+        gameObject.addSubGameObjects(new GameObject());
+        gameObject.setRotation(new Vector3(1,0,0));
+        gameObject.setScale(new Vector3(1,1,1));
+        gameObject.updateObjectMatrix(new Matrix4().identity());
+        expect( gameObject.getMatrix()).to.deep.equal(new Matrix4().makeRotationX(1));
     });
 
 });
