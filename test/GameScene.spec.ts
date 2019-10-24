@@ -32,6 +32,18 @@ describe('GameScene', function () {
         expect((gameScene.getScene() as MockScene).objects).to.deep.equals([mesh]);
     });
 
+    it('should not add GameObject if it already Scene', function () {
+        let object: GameObject = new GameObject();
+        let geometry = new SphereGeometry(5,32,32);
+        let material = new MeshBasicMaterial({color:0xffff00});
+        let mesh = new Mesh(geometry, material);
+        object.addSubMesh(mesh);
+        gameScene.addItem(object);
+        expect(gameScene.addItem(object)).equal(false);
+        expect(object.getGameScene()).equal(gameScene);
+        expect((gameScene.getScene() as MockScene).objects).to.deep.equals([mesh]);
+    });
+
     it('should remove GameObject Correctly', function () {
         let object: GameObject = new GameObject();
         let geometry = new SphereGeometry(5,32,32);

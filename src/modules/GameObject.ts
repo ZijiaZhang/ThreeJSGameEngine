@@ -10,6 +10,7 @@ export class GameObject{
     public destroy(): boolean{
         if (this.gameScene) {
             this.gameScene.removeItem(this);
+            this.gameScene = null;
             return true;
         }
         return false;

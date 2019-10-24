@@ -1,41 +1,55 @@
 import {Object3D, Scene} from "three";
 import {GameObject} from "./GameObject";
 
-export class GameScene{
+export class GameScene {
     private scene: Scene;
+    private gameObjects: GameObject[] = [];
 
-    constructor(scene: Scene){
+    constructor(scene: Scene) {
         this.scene = scene;
     }
 
-    public addItem(object: GameObject | Object3D) {
-        if(object instanceof Object3D) {
+    public addItem(object: GameObject | Object3D): boolean {
+        if (object instanceof Object3D) {
             this.scene.add(object);
+            return true;
         } else {
-            for (let obj of object.getMeshes()) {
-                this.scene.add(obj);
+            if (!this.gameObjects.includes(object)) {
+                this.gameObjects.push(object);
+                for (let obj of object.getMeshes()) {
+                    this.scene.add(obj);
+                }
+                object.setGameScene(this);
+            } else {
+                return false;
             }
-            object.setGameScene(this);
         }
     }
 
     public removeItem(object: GameObject | Object3D): boolean {
-        try {
-            if(object instanceof Object3D) {
+        if (object instanceof Object3D) {
+            try {
                 this.scene.remove(object);
-            } else {
+            } catch (e) {
+                return false;
+            }
+        } else {
+            if(this.gameObjects.includes(object)) {
+                this.gameObjects.splice(this.gameObjects.indexOf(object), 1);
                 for (let obj of object.getMeshes()) {
                     this.scene.remove(obj);
                 }
-                object.setGameScene(null);
+                object.destroy();
+                return true;
             }
-            return true;
-        } catch (e) {
             return false;
+
         }
+
+
     }
 
-    public getScene(): Scene{
+    public getScene(): Scene {
         return this.scene;
     }
 }
