@@ -22,7 +22,7 @@ module.exports = function(config) {
                         functions: 100,
                         lines: 100,
                         excludes: [
-                            "src/modules/examples/**/*.js"
+                            "src/modules/examples/**/*.ts"
                         ]
                     }
                 }
