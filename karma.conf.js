@@ -25,7 +25,11 @@ module.exports = function(config) {
                             "src/modules/examples/**/*.ts"
                         ]
                     }
-                }
+                },
+                exclude: [
+                    new RegExp("src/modules/examples/.*.ts"),
+                    new RegExp("test/.*.ts"),
+                ]
             },
             reports: {
                 json: {
