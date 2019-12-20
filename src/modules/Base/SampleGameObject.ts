@@ -1,17 +1,17 @@
-import {Tickable} from "./Interfaces/Tickable";
-import {Object3D} from "three";
-import {GameObject} from "./Interfaces/GameObject";
+import {Matrix4, Mesh, Object3D, Vector3} from "three";
 import {GameScene} from "./GameScene";
+import {GameObject} from "./Interfaces/GameObject";
 
-export abstract class TickObject extends Object3D implements Tickable, GameObject {
-    abstract tick(): void;
+export class SampleGameObject extends Object3D implements GameObject{
+    protected subMeshes: Mesh[] = [];
+    protected subGameObjects: SampleGameObject[] = [];
+    gameScene: GameScene;
 
     public destroy(): boolean{
         if (this.gameScene) {
             let scene = this.gameScene;
             this.gameScene = null;
             scene.removeItem(this);
-            scene.removeTickable(this);
             return true;
         }
         return false;
@@ -19,9 +19,6 @@ export abstract class TickObject extends Object3D implements Tickable, GameObjec
 
     public addScene(scene: GameScene): boolean {
         this.gameScene = scene;
-        scene.addTickable(this);
         return true;
     }
-
-    gameScene: GameScene;
 }

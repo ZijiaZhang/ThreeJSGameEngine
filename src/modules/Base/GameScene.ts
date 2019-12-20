@@ -1,65 +1,52 @@
 import {Matrix4, Object3D, Scene} from "three";
-import {GameObject} from "./GameObject";
+import {SampleGameObject} from "./SampleGameObject";
 import {TickObject} from "./TickObject";
+import {GameObject, instanceOfGameObject} from "./Interfaces/GameObject";
+import {Game} from "../Game";
 
 export class GameScene {
     private scene: Scene;
-    private gameObjects: GameObject[] = [];
-    private gameobject: GameObject;
+    private tickableObjects: Set<TickObject> = new Set<TickObject>();
+
     constructor(scene: Scene) {
         this.scene = scene;
     }
 
-    public addItem(object: GameObject | Object3D): boolean {
-        if (object instanceof Object3D) {
-            this.scene.add(object);
-            return true;
-        } else {
-            if (!this.gameObjects.includes(object)) {
-                this.gameObjects.push(object);
-                for (let obj of object.getMeshes()) {
-                    this.scene.add(obj);
-                }
-                object.setGameScene(this);
-            } else {
-                return false;
-            }
+    public addItem(object: Object3D): boolean {
+        this.scene.add(object);
+        if (instanceOfGameObject(object)) {
+            let myObj: GameObject = object as unknown as GameObject;
+            myObj.addScene(this);
         }
+        return true;
     }
 
-    public removeItem(object: GameObject | Object3D): boolean {
-        if (object instanceof Object3D) {
-            try {
-                this.scene.remove(object);
-            } catch (e) {
-                return false;
-            }
-        } else {
-            if(this.gameObjects.includes(object)) {
-                this.gameObjects.splice(this.gameObjects.indexOf(object), 1);
-                for (let obj of object.getMeshes()) {
-                    this.scene.remove(obj);
-                }
-                object.destroy();
-                return true;
-            }
-            return false;
+    public removeItem(object: SampleGameObject | Object3D): boolean {
+        this.scene.remove(object);
 
+        if (instanceOfGameObject(object)) {
+            let myObj: GameObject = object as unknown as GameObject;
+            myObj.destroy();
         }
-
-
+        return true;
     }
+
 
     public getScene(): Scene {
         return this.scene;
     }
 
-    public update(){
-        for (this.gameobject of this.gameObjects){
-            if (this.gameobject instanceof TickObject){
-                this.gameobject.tick();
-            }
-            this.gameobject.updateObjectMatrix(new Matrix4().identity());
+    public update() {
+        for (let object of this.tickableObjects) {
+            object.tick();
         }
+    }
+
+    public addTickable(object: TickObject) {
+        this.tickableObjects.add(object);
+    }
+
+    public removeTickable(object: TickObject) {
+        this.tickableObjects.delete(object);
     }
 }

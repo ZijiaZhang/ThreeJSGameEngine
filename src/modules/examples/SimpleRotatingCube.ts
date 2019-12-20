@@ -7,7 +7,7 @@ export class SimpleRotatingCube extends TickObject{
     protected cube = new Mesh(new BoxGeometry(3,3,3), new MeshBasicMaterial({color:0xffff00}));
     constructor(){
         super();
-        this.addSubMesh(this.cube);
+        this.attach(this.cube);
     }
 
     tick(): void {

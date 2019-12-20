@@ -8,7 +8,7 @@ export class SimpleControlableCube extends ControlableObject{
     protected speed = 10;
     constructor(){
         super();
-        this.addSubMesh(this.cube);
+        this.attach(this.cube);
     }
 
     tick(): void {
@@ -17,16 +17,16 @@ export class SimpleControlableCube extends ControlableObject{
 
     updateInput(): void {
         if(playerInput.keyMap["w"]) {
-            this.transformation.y = this.transformation.y + Game.getInstance().dt * this.speed;
+            this.position.y = this.position.y + Game.getInstance().dt * this.speed;
         }
         if(playerInput.keyMap["s"]) {
-            this.transformation.y = this.transformation.y - Game.getInstance().dt* this.speed;
+            this.position.y = this.position.y - Game.getInstance().dt* this.speed;
         }
         if(playerInput.keyMap["a"]) {
-            this.transformation.x = this.transformation.x - Game.getInstance().dt* this.speed;
+            this.position.x = this.position.x - Game.getInstance().dt* this.speed;
         }
         if(playerInput.keyMap["d"]) {
-            this.transformation.x = this.transformation.x + Game.getInstance().dt* this.speed;
+            this.position.x = this.position.x + Game.getInstance().dt* this.speed;
         }
     }
 

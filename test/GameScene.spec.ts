@@ -2,9 +2,10 @@
 import {MockScene} from "../src/tests/MockScene";
 import {expect} from "chai";
 import {GameScene} from "../src/modules/Base/GameScene";
-import {GameObject} from "../src/modules/Base/GameObject";
+import {SampleGameObject} from "../src/modules/Base/SampleGameObject";
 import {Matrix4, Mesh, MeshBasicMaterial, SphereGeometry} from "three";
 import {SimpleRotatingCube} from "../src/modules/examples/SimpleRotatingCube";
+import {SampleTickObject} from "../src/tests/SampleTickObject";
 
 describe('GameScene', function () {
     let gameScene: GameScene;
@@ -15,14 +16,14 @@ describe('GameScene', function () {
         gameScene = new GameScene(new MockScene());
     });
     it('should add GameObject Correctly', function () {
-        let object: GameObject = new GameObject();
+        let object: SampleGameObject = new SampleGameObject();
         let geometry = new SphereGeometry(5,32,32);
         let material = new MeshBasicMaterial({color:0xffff00});
         let mesh = new Mesh(geometry, material);
-        object.addSubMesh(mesh);
+        object.attach(mesh);
         gameScene.addItem(object);
-        expect(object.getGameScene()).equal(gameScene);
-        expect((gameScene.getScene() as MockScene).objects).to.deep.equals([mesh]);
+        expect(object.gameScene).equal(gameScene);
+        expect((gameScene.getScene() as MockScene).objects).to.deep.equals([object]);
     });
 
     it('should add Object3D Correctly', function () {
@@ -33,70 +34,11 @@ describe('GameScene', function () {
         expect((gameScene.getScene() as MockScene).objects).to.deep.equals([mesh]);
     });
 
-    it('should not add GameObject if it already Scene', function () {
-        let object: GameObject = new GameObject();
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        object.addSubMesh(mesh);
-        gameScene.addItem(object);
-        expect(gameScene.addItem(object)).equal(false);
-        expect(object.getGameScene()).equal(gameScene);
-        expect((gameScene.getScene() as MockScene).objects).to.deep.equals([mesh]);
-    });
-
-    it('should remove GameObject Correctly', function () {
-        let object: GameObject = new GameObject();
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        object.addSubMesh(mesh);
-        gameScene.addItem(object);
-        gameScene.removeItem(object);
-        expect(object.getGameScene()).equal(null);
-        expect((gameScene.getScene() as MockScene).objects).to.deep.equals([]);
-    });
-
-    it('should remove Object3D Correctly', function () {
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        gameScene.addItem(mesh);
-        gameScene.removeItem(mesh);
-        expect((gameScene.getScene() as MockScene).objects).to.deep.equals([]);
-    });
-
-    it('should not remove GameObject Correctly when object is not added', function () {
-        let object: GameObject = new GameObject();
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        object.addSubMesh(mesh);
-        expect(gameScene.removeItem(object)).equals(false);
-    });
-
-    it('should not remove Object3D When object is not added', function () {
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        expect(gameScene.removeItem(mesh)).equals(false);
-    });
-
-    it('should update GameObject Correctly', function () {
-        let object: GameObject = new GameObject();
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        object.addSubMesh(mesh);
+    it("should update Tick Object", () => {
+        let object = new SampleTickObject();
         gameScene.addItem(object);
         gameScene.update();
-        expect(object.getMatrix()).to.deep.equal(new Matrix4().identity());
+        expect(object.tickCount).equal(1);
     });
 
-    it('should update tick Object Correctly', function () {
-        let object: GameObject = new SimpleRotatingCube();
-        gameScene.addItem(object);
-        gameScene.update();
-        expect(object.getMatrix()).to.deep.equal(new Matrix4().identity());
-    });
 });

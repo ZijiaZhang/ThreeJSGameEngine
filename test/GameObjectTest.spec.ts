@@ -1,70 +1,35 @@
 import {BoxGeometry, Matrix4, Mesh, MeshBasicMaterial, SphereGeometry, Vector3} from "three";
 import {expect} from "chai";
-import {GameObject} from "../src/modules/Base/GameObject";
+import {SampleGameObject} from "../src/modules/Base/SampleGameObject";
 import {GameScene} from "../src/modules/Base/GameScene";
 import {MockScene} from "../src/tests/MockScene";
+import {TickObject} from "../src/modules/Base/TickObject";
+import {SimpleRotatingCube} from "../src/modules/examples/SimpleRotatingCube";
 
 describe('GameObject', function () {
-    let gameObject: GameObject;
+    let gameObject: SampleGameObject;
     beforeEach(function () {
-        gameObject = new GameObject();
-    });
-
-    it("should add simple meshes correctly", () => {
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        gameObject.addSubMesh(mesh);
-        expect(gameObject.getMeshes()).to.deep.equals([mesh]);
-    });
-
-    it("should add subObject with meshes correctly", () => {
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        gameObject.addSubMesh(mesh);
-        let gameObject1 = new GameObject();
-        gameObject1.addSubGameObjects(gameObject);
-        let geometry1 = new BoxGeometry(5,32,32);
-        let material1 = new MeshBasicMaterial({color:0xffff00});
-        let mesh1 = new Mesh(geometry1, material1);
-        gameObject1.addSubMesh(mesh1);
-        expect(gameObject1.getMeshes()).to.have.deep.members([mesh,mesh1]);
-    });
-
-    it("should not add subObject if the meshes cause cycle", () => {
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        gameObject.addSubMesh(mesh);
-        expect(gameObject.addSubGameObjects(gameObject)).false;
-        let gameObject1 = new GameObject();
-        gameObject1.addSubGameObjects(gameObject);
-        expect(gameObject.addSubGameObjects(gameObject1)).false;
-    });
-
-    it("should not add subObject if the meshes cause cycle deeper", () => {
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        gameObject.addSubMesh(mesh);
-        expect(gameObject.addSubGameObjects(gameObject)).false;
-        let gameObject1 = new GameObject();
-        gameObject1.addSubGameObjects(gameObject);
-        let gameObject2 = new GameObject();
-        gameObject.addSubGameObjects(gameObject2);
-        expect(gameObject2.addSubGameObjects(gameObject1)).false;
+        gameObject = new SampleGameObject();
     });
 
     it("should destroy it self", () => {
         let geometry = new SphereGeometry(5,32,32);
         let material = new MeshBasicMaterial({color:0xffff00});
         let mesh = new Mesh(geometry, material);
-        gameObject.addSubMesh(mesh);
+        gameObject.attach(mesh);
         let scene: GameScene = new GameScene(new MockScene());
         scene.addItem(gameObject);
         gameObject.destroy();
-        expect(gameObject.getGameScene()).equal(null);
+        expect(gameObject.gameScene).equal(null);
+        expect((scene.getScene() as MockScene).objects).to.deep.equals([]);
+    });
+
+    it("should destroy it self if it is tick object", () => {
+        let object = new SimpleRotatingCube();
+        let scene: GameScene = new GameScene(new MockScene());
+        scene.addItem(object);
+        object.destroy();
+        expect(object.gameScene).equal(null);
         expect((scene.getScene() as MockScene).objects).to.deep.equals([]);
     });
 
@@ -72,30 +37,8 @@ describe('GameObject', function () {
         let geometry = new SphereGeometry(5,32,32);
         let material = new MeshBasicMaterial({color:0xffff00});
         let mesh = new Mesh(geometry, material);
-        gameObject.addSubMesh(mesh);
+        gameObject.attach(mesh);
         expect( gameObject.destroy()).equal(false);
-    });
-
-    it("should update Matrix", () => {
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        gameObject.addSubMesh(mesh);
-        gameObject.setTransformation(new Vector3(1,1,1,));
-        gameObject.updateObjectMatrix(new Matrix4().identity());
-        expect( gameObject.getMatrix()).to.deep.equal(new Matrix4().makeTranslation(1,1,1));
-    });
-
-    it("should update Matrix Rotation", () => {
-        let geometry = new SphereGeometry(5,32,32);
-        let material = new MeshBasicMaterial({color:0xffff00});
-        let mesh = new Mesh(geometry, material);
-        gameObject.addSubMesh(mesh);
-        gameObject.addSubGameObjects(new GameObject());
-        gameObject.setRotation(new Vector3(1,0,0));
-        gameObject.setScale(new Vector3(1,1,1));
-        gameObject.updateObjectMatrix(new Matrix4().identity());
-        expect( gameObject.getMatrix()).to.deep.equal(new Matrix4().makeRotationX(1));
     });
 
 });
