@@ -3,7 +3,7 @@ import {GameScene} from "./GameScene";
 
 class ViewPortManager{
     private activeScene: GameScene;
-    private renderer: WebGLRenderer;
+    private renderer: WebGLRenderer = new WebGLRenderer();
     private camera: PerspectiveCamera;
     private canvas: HTMLElement| null;
     private cameraFov: number;
@@ -32,8 +32,9 @@ class ViewPortManager{
     }
 
     public updateViewport(){
-        this.renderer.setSize(window.innerWidth,window.innerHeight);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.updateCamera();
+
     }
 
     public updateCamera(){

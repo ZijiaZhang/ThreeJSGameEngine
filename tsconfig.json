@@ -18,6 +18,7 @@
     "filesGlob": [
         "/src/**/*.ts",
         "/test/**/*.ts"
+        //"/node_modules/physijs-webpack/**/*.js"
     ],
     "exclude": [
         "node_modules"

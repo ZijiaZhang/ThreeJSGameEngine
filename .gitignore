@@ -1,11 +1,11 @@
 # Project exclude paths
-/node_modules/
+!/node_modules
+/node_modules/*
+!/node_modules/physijs
 /coverage/
 /public/javascripts/
-/src/modules/Game.js
-/src/modules/Game.js.map
-/src/modules/StartGame.js
-/src/modules/StartGame.js.map
 /.idea/
-/**/*.js
-/**/*.js.map
+/src/**/*.js
+/src/**/*.js.map
+/test/**/*.js
+/test/**/*.js.map

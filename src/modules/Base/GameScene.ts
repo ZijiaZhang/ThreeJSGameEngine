@@ -3,10 +3,11 @@ import {SampleGameObject} from "./SampleGameObject";
 import {TickObject} from "./TickObject";
 import {GameObject, instanceOfGameObject} from "./Interfaces/GameObject";
 import {Game} from "../Game";
+import {Tickable} from "./Interfaces/Tickable";
 
 export class GameScene {
     private scene: Scene;
-    private tickableObjects: Set<TickObject> = new Set<TickObject>();
+    private tickableObjects: Set<Tickable> = new Set<Tickable>();
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -21,7 +22,7 @@ export class GameScene {
         return true;
     }
 
-    public removeItem(object: SampleGameObject | Object3D): boolean {
+    public removeItem(object: Object3D): boolean {
         this.scene.remove(object);
 
         if (instanceOfGameObject(object)) {
@@ -42,11 +43,11 @@ export class GameScene {
         }
     }
 
-    public addTickable(object: TickObject) {
+    public addTickable(object: Tickable) {
         this.tickableObjects.add(object);
     }
 
-    public removeTickable(object: TickObject) {
+    public removeTickable(object: Tickable) {
         this.tickableObjects.delete(object);
     }
 }
