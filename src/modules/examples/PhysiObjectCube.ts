@@ -2,7 +2,7 @@ import {GameObject} from "../Base/Interfaces/GameObject";
 import {GameScene} from "../Base/GameScene";
 import {Tickable} from "../Base/Interfaces/Tickable";
 // @ts-ignore
-import {BoxMesh} from "physijs";
+import {BoxMesh} from "../physijs";
 import {PhysiObject} from "../Base/PhysiObject";
 
 export class PhysiObjectCube extends BoxMesh implements GameObject, Tickable, PhysiObject{

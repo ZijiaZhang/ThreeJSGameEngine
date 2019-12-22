@@ -9,3 +9,4 @@
 /src/**/*.js.map
 /test/**/*.js
 /test/**/*.js.map
+!/src/modules/physijs
