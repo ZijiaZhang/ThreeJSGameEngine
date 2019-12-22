@@ -1,7 +1,5 @@
 # Project exclude paths
-!/node_modules
-/node_modules/*
-!/node_modules/physijs
+/node_modules/
 /coverage/
 /public/javascripts/
 /.idea/
@@ -10,3 +8,4 @@
 /test/**/*.js
 /test/**/*.js.map
 !/src/modules/physijs
+!/src/modules/physijs/**/*.js
