@@ -23,7 +23,7 @@
     "morgan": "~1.9.1",
     "pug": "^2.0.4",
     "stats.js": "^0.17.0",
-    "three": "^0.109.0",
+    "three": "^0.137.0",
     "three-orbitcontrols": "^2.108.1",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3",
