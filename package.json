@@ -16,7 +16,7 @@
     "@types/stats": "^0.16.30",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "~4.18.2",
     "http-errors": "~1.6.3",
     "jsdom": "^15.1.1",
     "jsdom-global": "^3.0.2",
